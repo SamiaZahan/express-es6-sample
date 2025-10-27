@@ -18,6 +18,7 @@ artifacts:
     - dist-server/**/* 
     # static assets if your app serves them
     - public/**/* 
+    - buildspec-test.yml 
     # tell EB how to start
     - Procfile
   discard-paths: no
