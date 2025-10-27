@@ -5,12 +5,19 @@ phases:
     runtime-versions:
       nodejs: 18
     commands:
-      - npm ci
+      - npm ci || npm install
   build:
     commands:
-      - echo "Build phase complete"
-
+      - npm run build
 artifacts:
   files:
-    - '**/*'
+    # runtime and metadata
+    - package.json
+    - package-lock.json
+    # transpiled server (what node actually runs in prod)
+    - dist-server/**/* 
+    # static assets if your app serves them
+    - public/**/* 
+    # tell EB how to start
+    - Procfile
   discard-paths: no
