@@ -133,22 +133,91 @@
               "providesAuthentication": false,
               "threats": [
                 {
-                  "id": "cc97790c-2a29-4ca3-a3ca-45f242ec2905",
-                  "title": "No Suggestions available",
+                  "id": "03cfdda4-bab6-46a4-a33f-42d906973888",
+                  "title": "Phishing or session hijacking via stolen cookies",
                   "status": "Open",
-                  "severity": "TBD",
+                  "severity": "High",
                   "type": "Spoofing",
-                  "description": "No suggestions available for this context. Add one manually please",
-                  "mitigation": "",
+                  "description": "Attacker obtains credentials or steals session cookies (e.g., via phishing, mixed content, or insecure cookie flags) to impersonate a user.",
+                  "mitigation": "Use Secure/HttpOnly/SameSite cookie flags; enforce MFA; shorten session lifetime; enable anti-phishing headers and training.",
                   "modelType": "STRIDE",
                   "new": false,
-                  "number": 8,
+                  "number": 9,
+                  "score": ""
+                },
+                {
+                  "id": "584059be-e211-419b-9202-9bc5dfce9abf",
+                  "title": "Client-side script modification (malicious JS)",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Tampering",
+                  "description": "Injected or compromised client-side scripts modify form inputs or UI actions, tampering with data sent to the server.",
+                  "mitigation": "Enforce CSP, Subresource Integrity (SRI), avoid inline scripts; validate on server; restrict third-party scripts.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 10,
+                  "score": ""
+                },
+                {
+                  "id": "b91dd88d-7ea6-48e2-a72c-5418349cca96",
+                  "title": "Users deny malicious input actions (no non-repudiation)",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Repudiation",
+                  "description": "Actions initiated from the UI are not logged with sufficient integrity to prove who did what and when.",
+                  "mitigation": "Create tamper-evident, append-only server-side audit logs with timestamps, user IDs; protect logs with access controls.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 11,
+                  "score": ""
+                },
+                {
+                  "id": "94da07f8-0c51-447a-aeb0-5507950efb43",
+                  "title": "Exposure of credentials in browser cache / storage",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Information Disclosure",
+                  "description": "Tokens/credentials stored in localStorage/sessionStorage or cached responses may be read by other scripts or local attackers.",
+                  "mitigation": "Avoid storing secrets client-side; use HttpOnly cookies for tokens; prevent caching of sensitive endpoints; clear on logout.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 12,
+                  "score": ""
+                },
+                {
+                  "id": "89439676-e9a1-4f37-8c23-a4308a11fc35",
+                  "title": "UI overload via repeated automated requests",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Denial of Service",
+                  "description": "Automated clients/bots repeatedly trigger UI actions causing server or client-side resource exhaustion.",
+                  "mitigation": "Use CAPTCHA on risky flows, enforce server-side rate limiting and WAF rules; implement bot detection.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 13,
+                  "score": ""
+                },
+                {
+                  "id": "83ef6360-5531-46ed-99b6-2261b6c41b44",
+                  "title": "Cross-site scripting (XSS) used to run admin commands",
+                  "status": "Open",
+                  "severity": "Critical",
+                  "type": "Elevation of Privilege",
+                  "description": "Stored/reflected XSS executes in an admin\u2019s browser, performing privileged actions under their session.",
+                  "mitigation": "Output encode; strict CSP; HttpOnly cookies; require step-up auth (MFA/re-auth) for critical admin actions.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 14,
                   "score": ""
                 }
               ],
               "threatFrequency": {
                 "spoofing": 1,
-                "repudiation": 0
+                "tampering": 1,
+                "repudiation": 1,
+                "informationDisclosure": 1,
+                "denialOfService": 1,
+                "elevationOfPrivilege": 1
               }
             },
             "tools": {
@@ -273,19 +342,98 @@
               "outOfScope": false,
               "isTrustBoundary": false,
               "reasonOutOfScope": "",
-              "hasOpenThreats": false,
+              "hasOpenThreats": true,
               "handlesCardPayment": false,
               "handlesGoodsOrServices": false,
               "isWebApplication": false,
               "privilegeLevel": "",
-              "threats": [],
+              "threats": [
+                {
+                  "id": "32a54f0e-8ca3-4033-bfc2-a3b1d98faa03",
+                  "title": "Fake or stolen JWT / session token accepted",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Spoofing",
+                  "description": "Forged or replayed tokens allow attackers to impersonate users if signatures/claims/expiry are not validated.",
+                  "mitigation": "Validate signatures and claims; enforce expiry and revocation; use short-lived tokens and strong signing keys.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 15,
+                  "score": ""
+                },
+                {
+                  "id": "f1988412-8a1b-45a9-baba-077de3c3f1e2",
+                  "title": "Parameter tampering / SQL injection",
+                  "status": "Open",
+                  "severity": "Critical",
+                  "type": "Tampering",
+                  "description": "Manipulated parameters or inputs lead to SQL injection or altering of server behavior/data.",
+                  "mitigation": "Use parameterized queries/ORM; rigorous server-side validation; schema validation; WAF rules for injection.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 16,
+                  "score": ""
+                },
+                {
+                  "id": "89b04aaf-b599-4f17-8641-55d6a8d14584",
+                  "title": "Lack of audit logs (repudiation risk)",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Repudiation",
+                  "description": "Important server-side actions lack secure, centralized logging, enabling users to deny actions.",
+                  "mitigation": "Centralized, immutable logging with actor identity and timestamps; protect logs; regular review and alerting.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 17,
+                  "score": ""
+                },
+                {
+                  "id": "d069036d-ea6b-451b-88d3-654ad16637aa",
+                  "title": "Sensitive error messages reveal stack trace",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Information Disclosure",
+                  "description": "Detailed exceptions and stack traces are returned to clients, exposing implementation details or secrets.",
+                  "mitigation": "Return generic errors to clients; log full detail server-side; disable debug in production.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 18,
+                  "score": ""
+                },
+                {
+                  "id": "2650735c-64d2-42a7-8a14-f01c3da36e85",
+                  "title": "Excessive requests cause server crash",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Denial of Service",
+                  "description": "High-volume or expensive requests exhaust CPU/memory/threads and degrade availability.",
+                  "mitigation": "Server-side throttling/rate limiting; circuit breakers; autoscaling; WAF/edge caching.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 19,
+                  "score": ""
+                },
+                {
+                  "id": "6f930c0d-e3a4-483b-9974-d080027708a9",
+                  "title": "Insecure code execution (shell injection / unsafe eval)",
+                  "status": "Open",
+                  "severity": "Critical",
+                  "type": "Elevation of Privilege",
+                  "description": "Unsafely executing user-controlled input leads to command injection or arbitrary code execution.",
+                  "mitigation": "Avoid exec/eval on user input; use safe libraries; least-privilege runtime; static/dynamic code scans.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 20,
+                  "score": ""
+                }
+              ],
               "threatFrequency": {
-                "spoofing": 0,
-                "tampering": 0,
-                "repudiation": 0,
-                "informationDisclosure": 0,
-                "denialOfService": 0,
-                "elevationOfPrivilege": 0
+                "spoofing": 1,
+                "tampering": 1,
+                "repudiation": 1,
+                "informationDisclosure": 1,
+                "denialOfService": 1,
+                "elevationOfPrivilege": 1
               }
             }
           },
@@ -404,13 +552,100 @@
               "outOfScope": false,
               "isTrustBoundary": false,
               "reasonOutOfScope": "",
-              "hasOpenThreats": false,
+              "hasOpenThreats": true,
               "isALog": false,
               "isEncrypted": false,
               "isSigned": false,
               "storesCredentials": false,
               "storesInventory": false,
-              "threats": []
+              "threats": [
+                {
+                  "id": "0f1645ac-75d1-45fa-86a2-330192269815",
+                  "title": "Connection string misuse / leaked DB credentials",
+                  "status": "Open",
+                  "severity": "Critical",
+                  "type": "Spoofing",
+                  "description": "Hard-coded or poorly stored DB credentials are exposed and used to connect as a trusted client.",
+                  "mitigation": "Use a secrets manager; rotate credentials; prefer IAM/short-lived auth; restrict access to secrets.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 21,
+                  "score": ""
+                },
+                {
+                  "id": "e5ba69fb-ccd8-4565-9bfa-7b1cfac54255",
+                  "title": "Direct data manipulation via SQL injection",
+                  "status": "Open",
+                  "severity": "Critical",
+                  "type": "Tampering",
+                  "description": "Unparameterized queries allow attackers to modify/insert/delete data directly in the database.",
+                  "mitigation": "Parameterize queries; least-privilege DB accounts; WAF; input validation and prepared statements.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 22,
+                  "score": ""
+                },
+                {
+                  "id": "16d73a96-fa35-41cd-b23a-98e72b6ab291",
+                  "title": "No query / access audit trail",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Repudiation",
+                  "description": "Queries and data changes are not logged; insiders/attackers can alter data without trace.",
+                  "mitigation": "Enable DB audit logging (DML/DDL); centralize logs; protect integrity; alert on suspicious patterns.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 23,
+                  "score": ""
+                },
+                {
+                  "id": "30150bbe-9ed0-49a3-b251-7e6df5fc4e2c",
+                  "title": "Data leak from unencrypted backups",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Information Disclosure",
+                  "description": "Backups stored unencrypted or in insecure locations expose sensitive data if accessed.",
+                  "mitigation": "Encrypt backups at rest and in transit; restrict access; key rotation; secure disposal of old backups.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 24,
+                  "score": ""
+                },
+                {
+                  "id": "f1e2b9ec-92af-48d5-88fa-1aac0fa1a8f9",
+                  "title": "Resource exhaustion / DB lock flooding",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Denial of Service",
+                  "description": "Malicious or heavy queries cause lock contention, connection saturation, or buffer exhaustion.",
+                  "mitigation": "Limit connection pools; query timeouts; monitor slow queries; resource quotas; DB-level rate limits.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 25,
+                  "score": ""
+                },
+                {
+                  "id": "4acb683c-c86e-48eb-b81c-2f8f930ec38f",
+                  "title": "Privilege escalation via weak DB roles",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Elevation of Privilege",
+                  "description": "Over-privileged roles or poor separation allow escalation to administrative privileges.",
+                  "mitigation": "Least privilege; strict RBAC; separate app vs admin roles; periodic privilege reviews.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 26,
+                  "score": ""
+                }
+              ],
+              "threatFrequency": {
+                "spoofing": 1,
+                "tampering": 1,
+                "repudiation": 1,
+                "informationDisclosure": 1,
+                "denialOfService": 1,
+                "elevationOfPrivilege": 1
+              }
             }
           },
           {
@@ -560,6 +795,6 @@
     ],
     "diagramTop": 3,
     "reviewer": "Nur Haldar",
-    "threatTop": 8
+    "threatTop": 26
   }
 }
