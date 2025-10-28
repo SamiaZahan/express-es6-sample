@@ -1,0 +1,16 @@
+{
+  "version": "2.5.0",
+  "summary": {
+    "title": "WebApp Threat Model",
+    "owner": "Samia Zahan (Student ID 22008170)",
+    "description": "A basic STRIDE-based threat model for a three-tier web application \nconsisting of User Interface, Web Application, and Database components",
+    "id": 0
+  },
+  "detail": {
+    "contributors": [],
+    "diagrams": [],
+    "diagramTop": 2,
+    "reviewer": "Nur Haldar",
+    "threatTop": 0
+  }
+}
