@@ -8,8 +8,19 @@
   },
   "detail": {
     "contributors": [],
-    "diagrams": [],
-    "diagramTop": 2,
+    "diagrams": [
+      {
+        "id": 2,
+        "title": "WebApp Threat Model",
+        "diagramType": "STRIDE",
+        "placeholder": "New STRIDE diagram description",
+        "thumbnail": "./public/content/images/thumbnail.stride.jpg",
+        "version": "2.5.0",
+        "cells": [],
+        "description": "STRIDE-based threat model of a three-tier web application (UI, Web App, Database)."
+      }
+    ],
+    "diagramTop": 3,
     "reviewer": "Nur Haldar",
     "threatTop": 0
   }
